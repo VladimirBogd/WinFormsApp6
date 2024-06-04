@@ -18,32 +18,67 @@ namespace WinFormsApp6
 		public List<IImpactPoint> impactPoints = new List<IImpactPoint>(); // <<< ТАК ВОТ
         public int ParticlesCount = 500;
 
+        public int X; // координата X центра эмиттера, будем ее использовать вместо MousePositionX
+        public int Y; // соответствующая координата Y 
+        public int Direction = 0; // вектор направления в градусах куда сыпет эмиттер
+        public int Spreading = 360; // разброс частиц относительно Direction
+        public int SpeedMin = 1; // начальная минимальная скорость движения частицы
+        public int SpeedMax = 10; // начальная максимальная скорость движения частицы
+        public int RadiusMin = 2; // минимальный радиус частицы
+        public int RadiusMax = 10; // максимальный радиус частицы
+        public int LifeMin = 20; // минимальное время жизни частицы
+        public int LifeMax = 100; // максимальное время жизни частицы
+
+        public Color ColorFrom = Color.White; // начальный цвет частицы
+        public Color ColorTo = Color.FromArgb(0, Color.Black); // конечный цвет частиц
+
+        public int ParticlesPerTick = 1; // добавил новое поле
+
         // добавил новый метод, виртуальным, чтобы переопределять можно было
         public virtual void ResetParticle(Particle particle)
 		{
-			particle.Life = 20 + Particle.rand.Next(100);
-			particle.X = MousePositionX;
-			particle.Y = MousePositionY;
+            particle.Life = Particle.rand.Next(LifeMin, LifeMax);
 
-			var direction = (double)Particle.rand.Next(360);
-			var speed = 1 + Particle.rand.Next(10);
+            particle.X = X;
+            particle.Y = Y;
 
-			particle.SpeedX = (float)(Math.Cos(direction / 180 * Math.PI) * speed);
-			particle.SpeedY = -(float)(Math.Sin(direction / 180 * Math.PI) * speed);
+            var direction = Direction
+                + (double)Particle.rand.Next(Spreading)
+                - Spreading / 2;
 
-			particle.Radius = 2 + Particle.rand.Next(10);
-		}
+            var speed = Particle.rand.Next(SpeedMin, SpeedMax);
 
-		public void UpdateState()
+            particle.SpeedX = (float)(Math.Cos(direction / 180 * Math.PI) * speed);
+            particle.SpeedY = -(float)(Math.Sin(direction / 180 * Math.PI) * speed);
+
+            particle.Radius = Particle.rand.Next(RadiusMin, RadiusMax);
+        }
+
+        public virtual Particle CreateParticle()
+        {
+            var particle = new ParticleColorful();
+            particle.FromColor = ColorFrom;
+            particle.ToColor = ColorTo;
+
+            return particle;
+        }
+
+        public void UpdateState()
 		{
-			foreach (var particle in particles)
+            int particlesToCreate = ParticlesPerTick; // фиксируем счетчик сколько частиц нам создавать за тик
+
+            foreach (var particle in particles)
 			{
-				particle.Life -= 1;  // не трогаем
-				if (particle.Life < 0)
-				{
-					ResetParticle(particle);
-				}
-				else
+                if (particle.Life <= 0) // если частицы умерла
+                {
+                    if (particlesToCreate > 0) // то проверяем надо ли создать частицу
+                    {
+                        /* у нас как сброс частицы равносилен созданию частицы */
+                        particlesToCreate -= 1; // поэтому уменьшаем счётчик созданных частиц на 1
+                        ResetParticle(particle);
+                    }
+                }
+                else
 				{
 					foreach (var point in impactPoints)
 					{
@@ -58,25 +93,14 @@ namespace WinFormsApp6
 					particle.Y += particle.SpeedY;
 				}
 			}
-			for (var i = 0; i < 10; ++i)
-			{
-				if (particles.Count < ParticlesCount) // пока частиц меньше 500 генерируем новые
-				{
-                    /* ну и тут чуток подкрутили */
-                    var particle = new ParticleColorful();
-                    particle.FromColor = Color.White;
-                    particle.ToColor = Color.FromArgb(0, Color.Black);
-
-                    ResetParticle(particle); // добавили вызов ResetParticle
-
-                    particles.Add(particle);
-                }
-				else
-				{
-					break; // а если частиц уже 500 штук, то ничего не генерирую
-				}
-			}
-		}
+            while (particlesToCreate >= 1)
+            {
+                particlesToCreate -= 1;
+                var particle = CreateParticle();
+                ResetParticle(particle);
+                particles.Add(particle);
+            }
+        }
 
 		public void Render(Graphics g)
 		{
