@@ -29,14 +29,16 @@ namespace WinFormsApp6
 			// привязываем гравитоны к полям
 			point1 = new GravityPoint
 			{
-				X = picDisplay.Width / 2 + 100,
+				X = picDisplay.Width / 2 - 100,
 				Y = picDisplay.Height / 2,
+				Power = 0
 			};
 			point2 = new GravityPoint
 			{
-				X = picDisplay.Width / 2 - 100,
+				X = picDisplay.Width / 2 + 100,
 				Y = picDisplay.Height / 2,
-			};
+                Power = 0
+            };
 
 			// привязываем поля к эмиттеру
 			emitter.impactPoints.Add(point1);
@@ -57,16 +59,12 @@ namespace WinFormsApp6
 			picDisplay.Invalidate();
 		}
 
-		// добавляем переменные для хранения положения мыши
-		private int MousePositionX = 0;
-		private int MousePositionY = 0;
-
 		private void picDisplay_MouseMove(object sender, MouseEventArgs e)
 		{
 			// а тут в эмиттер передаем положение мыфки
 			emitter.MousePositionX = e.X;
 			emitter.MousePositionY = e.Y;
-		}
+        }
 
 		private void tbDirection_Scroll(object sender, EventArgs e)
 		{

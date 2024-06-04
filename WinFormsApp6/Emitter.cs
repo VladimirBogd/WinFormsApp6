@@ -79,18 +79,19 @@ namespace WinFormsApp6
                     }
                 }
                 else
-				{
-					foreach (var point in impactPoints)
+                {
+                    // и добавляем новый, собственно он даже проще становится, 
+                    // так как теперь мы храним вектор скорости в явном виде и его не надо пересчитывать
+                    particle.X += particle.SpeedX;
+                    particle.Y += particle.SpeedY;
+
+                    foreach (var point in impactPoints)
 					{
 						point.ImpactParticle(particle);
 					}
 					// гравитация воздействует на вектор скорости, поэтому пересчитываем его
 					particle.SpeedX += GravitationX;
 					particle.SpeedY += GravitationY;
-					// и добавляем новый, собственно он даже проще становится, 
-					// так как теперь мы храним вектор скорости в явном виде и его не надо пересчитывать
-					particle.X += particle.SpeedX;
-					particle.Y += particle.SpeedY;
 				}
 			}
             while (particlesToCreate >= 1)
