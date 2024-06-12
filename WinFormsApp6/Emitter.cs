@@ -20,12 +20,13 @@ namespace WinFormsApp6
         public int X; // координата X центра эмиттера, будем ее использовать вместо MousePositionX
         public int Y; // соответствующая координата Y 
         public int Direction = 0; // вектор направления в градусах куда сыпет эмиттер
-        public int Spreading = 360; // разброс частиц относительно Direction
-        public int Speed = 10; // начальная  скорость движения частицы
+        public int Spreading = 0; // разброс частиц относительно Direction
+        public int Speed = 10; // начальная максимальная скорость движения частицы
         public int RadiusMin = 2; // минимальный радиус частицы
         public int RadiusMax = 10; // максимальный радиус частицы
         public int LifeMin = 20; // минимальное время жизни частицы
         public int LifeMax = 100; // максимальное время жизни частицы
+        public int ParticlesCount = 0; // количество частиц
 
         public Color ColorFrom = Color.White; // начальный цвет частицы
         public Color ColorTo = Color.FromArgb(0, Color.Black); // конечный цвет частиц
@@ -36,19 +37,16 @@ namespace WinFormsApp6
         public virtual void ResetParticle(Particle particle)
 		{
             particle.Life = Particle.rand.Next(LifeMin, LifeMax);
-
             particle.X = X;
             particle.Y = Y;
 
             var direction = Direction
                 + (double)Particle.rand.Next(Spreading)
                 - Spreading / 2;
-
             var speed = Speed;
 
             particle.SpeedX = (float)(Math.Cos(direction / 180 * Math.PI) * speed);
             particle.SpeedY = -(float)(Math.Sin(direction / 180 * Math.PI) * speed);
-
             particle.Radius = Particle.rand.Next(RadiusMin, RadiusMax);
         }
 
@@ -61,13 +59,15 @@ namespace WinFormsApp6
             return particle;
         }
 
+        List<Particle> deadParticles = new List<Particle>();
+
         public void UpdateState()
 		{
             int particlesToCreate = ParticlesPerTick; // фиксируем счетчик сколько частиц нам создавать за тик
-
             foreach (var particle in particles)
 			{
-                if (particle.Life <= 0) // если частицы умерла
+                particle.Life -= 1;
+                if (particle.Life <= 0) // если частица умерла
                 {
                     if (particlesToCreate > 0) // то проверяем надо ли создать частицу
                     {
@@ -75,11 +75,13 @@ namespace WinFormsApp6
                         particlesToCreate -= 1; // поэтому уменьшаем счётчик созданных частиц на 1
                         ResetParticle(particle);
                     }
+                    else
+                    {
+                        deadParticles.Add(particle);
+                    }
                 }
                 else
                 {
-                    // и добавляем новый, собственно он даже проще становится, 
-                    // так как теперь мы храним вектор скорости в явном виде и его не надо пересчитывать
                     particle.X += particle.SpeedX;
                     particle.Y += particle.SpeedY;
 
@@ -90,8 +92,12 @@ namespace WinFormsApp6
 					// гравитация воздействует на вектор скорости, поэтому пересчитываем его
 					particle.SpeedX += GravitationX;
 					particle.SpeedY += GravitationY;
-				}
-			}
+                }
+            }
+            foreach (var deadParticle in deadParticles)
+            {
+                particles.Remove(deadParticle);
+            }
             while (particlesToCreate >= 1)
             {
                 particlesToCreate -= 1;
@@ -99,9 +105,10 @@ namespace WinFormsApp6
                 ResetParticle(particle);
                 particles.Add(particle);
             }
+            ParticlesCount = particles.Count;
         }
 
-		public void Render(Graphics g)
+        public void Render(Graphics g)
 		{
 			foreach (var particle in particles)
 			{

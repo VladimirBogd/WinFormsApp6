@@ -52,14 +52,16 @@ namespace WinFormsApp6
             lblSpreading.Text = $"{tbSpreading.Value}°";
             lblGraviton1.Text = $"{tbGraviton1.Value}";
             lblGraviton2.Text = $"{tbGraviton2.Value}";
+			lblPartCount.Text = $"Количество частиц: {emitter.ParticlesCount}";
         }
 
 		// ну и обработка тика таймера, тут просто декомпозицию выполнили
 		private void timer1_Tick(object sender, EventArgs e)
 		{
 			emitter.UpdateState(); // тут теперь обновляем эмиттер
+            lblPartCount.Text = $"Количество частиц: {emitter.ParticlesCount}";
 
-			using (var g = Graphics.FromImage(picDisplay.Image))
+            using (var g = Graphics.FromImage(picDisplay.Image))
 			{
 				g.Clear(Color.Black); // А ЕЩЕ ЧЕРНЫЙ ФОН СДЕЛАЮ
 				emitter.Render(g); // а тут теперь рендерим через эмиттер
@@ -80,11 +82,26 @@ namespace WinFormsApp6
 			emitter.Direction = tbDirection.Value; // направлению эмиттера присваиваем значение ползунка 
 			lblDirection.Text = $"{tbDirection.Value}°"; // добавил вывод значения
 		}
-
 		private void tbSpreading_Scroll(object sender, EventArgs e)
 		{
 			emitter.Spreading = tbSpreading.Value; // направлению эмиттера присваиваем значение ползунка 
 			lblSpreading.Text = $"{tbSpreading.Value}°"; // добавил вывод значения
+		}
+		private void tbSpeed_Scroll(object sender, EventArgs e)
+		{
+			emitter.Speed = tbSpeed.Value;
+			lblSpeed.Text = $"{tbSpeed.Value}";
+		}
+		private void tbPartPerTick_Scroll(object sender, EventArgs e)
+		{
+			emitter.ParticlesPerTick = tbPartPerTick.Value;
+			lblPartPerTick.Text = $"{tbPartPerTick.Value}";
+		}
+		private void tbLife_Scroll(object sender, EventArgs e)
+		{
+			emitter.LifeMax = tbLife.Value;
+			emitter.LifeMin = tbLife.Value/10;
+            lblLife.Text = $"{tbLife.Value}";
 		}
 
 		private void tbGraviton_Scroll(object sender, EventArgs e)
@@ -92,30 +109,10 @@ namespace WinFormsApp6
             point1.Power = tbGraviton1.Value;
             lblGraviton1.Text = $"{tbGraviton1.Value}";
 		}
-
 		private void tbGraviton2_Scroll(object sender, EventArgs e)
 		{
             point2.Power = tbGraviton2.Value;
             lblGraviton2.Text = $"{tbGraviton2.Value}";
         }
-
-		private void tbSpeed_Scroll(object sender, EventArgs e)
-		{
-			emitter.Speed = tbSpeed.Value;
-			lblSpeed.Text = $"{tbSpeed.Value}";
-		}
-
-		private void tbPartPerTick_Scroll(object sender, EventArgs e)
-		{
-			emitter.ParticlesPerTick = tbPartPerTick.Value;
-			lblPartPerTick.Text = $"{tbPartPerTick.Value}";
-		}
-
-		private void tbLife_Scroll(object sender, EventArgs e)
-		{
-			emitter.LifeMax = tbLife.Value;
-			emitter.LifeMin = tbLife.Value/10;
-            lblLife.Text = $"{tbLife.Value}";
-		}
 	}
 }

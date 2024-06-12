@@ -11,27 +11,15 @@ namespace WinFormsApp6
 		public int Radius; // радиус частицы
 		public float X; // X координата положения частицы в пространстве
 		public float Y; // Y координата положения частицы в пространстве
-
         public float SpeedX; // скорость перемещения по оси X
         public float SpeedY; // скорость перемещения по оси Y
-
         public float Life; // запас здоровья частицы
 
         public static Random rand = new Random();
 
         public Particle()
         {
-            // генерируем произвольное направление и скорость
-            var direction = (double)rand.Next(360);
-            var speed = 1 + rand.Next(10);
 
-            // рассчитываем вектор скорости
-            SpeedX = (float)(Math.Cos(direction / 180 * Math.PI) * speed);
-            SpeedY = -(float)(Math.Sin(direction / 180 * Math.PI) * speed);
-
-            // а это не трогаем
-            Radius = 2 + rand.Next(10);
-            Life = 20 + rand.Next(100);
         }
 
         public virtual void Draw(Graphics g)

@@ -52,6 +52,7 @@
             this.label7 = new System.Windows.Forms.Label();
             this.lblLife = new System.Windows.Forms.Label();
             this.tbLife = new System.Windows.Forms.TrackBar();
+            this.lblPartCount = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.picDisplay)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.tbDirection)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.tbSpreading)).BeginInit();
@@ -291,11 +292,21 @@
             this.tbLife.Value = 50;
             this.tbLife.Scroll += new System.EventHandler(this.tbLife_Scroll);
             // 
+            // lblPartCount
+            // 
+            this.lblPartCount.AutoSize = true;
+            this.lblPartCount.Location = new System.Drawing.Point(558, 332);
+            this.lblPartCount.Name = "lblPartCount";
+            this.lblPartCount.Size = new System.Drawing.Size(116, 15);
+            this.lblPartCount.TabIndex = 22;
+            this.lblPartCount.Text = "Количество частиц:";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(745, 423);
+            this.Controls.Add(this.lblPartCount);
             this.Controls.Add(this.label7);
             this.Controls.Add(this.lblLife);
             this.Controls.Add(this.tbLife);
@@ -359,5 +370,6 @@
         private Label label7;
         private Label lblLife;
         private TrackBar tbLife;
+        private Label lblPartCount;
     }
 }
