@@ -14,13 +14,14 @@ namespace WinFormsApp6
 			picDisplay.Image = new Bitmap(picDisplay.Width, picDisplay.Height);
 			this.emitter = new Emitter // создаю эмиттер и привязываю его к полю emitter
 			{
-				Direction = 0,
-				Spreading = 10,
-				SpeedMin = 10,
-				SpeedMax = 10,
+				LifeMax = tbLife.Value,
+				LifeMin = tbLife.Value/10,
+                Direction = tbDirection.Value,
+				Spreading = tbSpreading.Value,
+				Speed = tbSpeed.Value,
+				ParticlesPerTick = tbPartPerTick.Value,
 				ColorFrom = Color.Gold,
 				ColorTo = Color.FromArgb(0, Color.Red),
-				ParticlesPerTick = 10,
 				X = picDisplay.Width / 2,
 				Y = picDisplay.Height / 2,
 			};
@@ -43,7 +44,15 @@ namespace WinFormsApp6
 			// привязываем поля к эмиттеру
 			emitter.impactPoints.Add(point1);
 			emitter.impactPoints.Add(point2);
-		}
+
+            lblLife.Text = $"{tbLife.Value}";
+            lblPartPerTick.Text = $"{tbPartPerTick.Value}";
+            lblSpeed.Text = $"{tbSpeed.Value}";
+            lblDirection.Text = $"{tbDirection.Value}°";
+            lblSpreading.Text = $"{tbSpreading.Value}°";
+            lblGraviton1.Text = $"{tbGraviton1.Value}";
+            lblGraviton2.Text = $"{tbGraviton2.Value}";
+        }
 
 		// ну и обработка тика таймера, тут просто декомпозицию выполнили
 		private void timer1_Tick(object sender, EventArgs e)
@@ -89,5 +98,24 @@ namespace WinFormsApp6
             point2.Power = tbGraviton2.Value;
             lblGraviton2.Text = $"{tbGraviton2.Value}";
         }
+
+		private void tbSpeed_Scroll(object sender, EventArgs e)
+		{
+			emitter.Speed = tbSpeed.Value;
+			lblSpeed.Text = $"{tbSpeed.Value}";
+		}
+
+		private void tbPartPerTick_Scroll(object sender, EventArgs e)
+		{
+			emitter.ParticlesPerTick = tbPartPerTick.Value;
+			lblPartPerTick.Text = $"{tbPartPerTick.Value}";
+		}
+
+		private void tbLife_Scroll(object sender, EventArgs e)
+		{
+			emitter.LifeMax = tbLife.Value;
+			emitter.LifeMin = tbLife.Value/10;
+            lblLife.Text = $"{tbLife.Value}";
+		}
 	}
 }
