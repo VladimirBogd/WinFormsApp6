@@ -5,7 +5,6 @@ namespace WinFormsApp6
 		Emitter emitter; // тут убрали явное создание
 		List<Emitter> emitters = new List<Emitter>();
 		List<Basket> baskets = new List<Basket>();
-		Basket basket;
 
 		public Form1()
 		{
@@ -94,15 +93,15 @@ namespace WinFormsApp6
                     basketCapacity = 1000;
                 }
 
-                this.basket = new Basket
+                var basket = new Basket
                 {
                     X = e.X,
                     Y = e.Y,
                     sizeBasket = basketSize,
                     capacity = basketCapacity
                 };
-                baskets.Add(this.basket);
-				emitters.First().impactPoints.Add(this.basket);
+                baskets.Add(basket);
+				emitters.First().impactPoints.Add(basket);
 			}
 			else if (e.Button == MouseButtons.Right)
 			{
