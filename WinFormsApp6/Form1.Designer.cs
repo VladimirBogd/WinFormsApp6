@@ -37,12 +37,6 @@
             this.label2 = new System.Windows.Forms.Label();
             this.lblSpreading = new System.Windows.Forms.Label();
             this.tbSpreading = new System.Windows.Forms.TrackBar();
-            this.label3 = new System.Windows.Forms.Label();
-            this.lblGraviton1 = new System.Windows.Forms.Label();
-            this.tbGraviton1 = new System.Windows.Forms.TrackBar();
-            this.label4 = new System.Windows.Forms.Label();
-            this.lblGraviton2 = new System.Windows.Forms.Label();
-            this.tbGraviton2 = new System.Windows.Forms.TrackBar();
             this.label5 = new System.Windows.Forms.Label();
             this.lblSpeed = new System.Windows.Forms.Label();
             this.tbSpeed = new System.Windows.Forms.TrackBar();
@@ -53,11 +47,14 @@
             this.lblLife = new System.Windows.Forms.Label();
             this.tbLife = new System.Windows.Forms.TrackBar();
             this.lblPartCount = new System.Windows.Forms.Label();
+            this.rb100 = new System.Windows.Forms.RadioButton();
+            this.rb250 = new System.Windows.Forms.RadioButton();
+            this.rb500 = new System.Windows.Forms.RadioButton();
+            this.rb1000 = new System.Windows.Forms.RadioButton();
+            this.label3 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.picDisplay)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.tbDirection)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.tbSpreading)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.tbGraviton1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.tbGraviton2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.tbSpeed)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.tbPartPerTick)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.tbLife)).BeginInit();
@@ -67,11 +64,11 @@
             // 
             this.picDisplay.Location = new System.Drawing.Point(2, 2);
             this.picDisplay.Name = "picDisplay";
-            this.picDisplay.Size = new System.Drawing.Size(550, 350);
+            this.picDisplay.Size = new System.Drawing.Size(550, 345);
             this.picDisplay.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.picDisplay.TabIndex = 0;
             this.picDisplay.TabStop = false;
-            this.picDisplay.MouseMove += new System.Windows.Forms.MouseEventHandler(this.picDisplay_MouseMove);
+            this.picDisplay.MouseClick += new System.Windows.Forms.MouseEventHandler(this.picDisplay_MouseClick);
             // 
             // timer1
             // 
@@ -138,66 +135,6 @@
             this.tbSpreading.TabIndex = 4;
             this.tbSpreading.Tag = "";
             this.tbSpreading.Scroll += new System.EventHandler(this.tbSpreading_Scroll);
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(2, 355);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(67, 15);
-            this.label3.TabIndex = 9;
-            this.label3.Text = "Гравитон 1";
-            // 
-            // lblGraviton1
-            // 
-            this.lblGraviton1.AutoSize = true;
-            this.lblGraviton1.Location = new System.Drawing.Point(158, 388);
-            this.lblGraviton1.Name = "lblGraviton1";
-            this.lblGraviton1.Size = new System.Drawing.Size(13, 15);
-            this.lblGraviton1.TabIndex = 8;
-            this.lblGraviton1.Text = "0";
-            // 
-            // tbGraviton1
-            // 
-            this.tbGraviton1.AccessibleName = "";
-            this.tbGraviton1.LargeChange = 10;
-            this.tbGraviton1.Location = new System.Drawing.Point(2, 373);
-            this.tbGraviton1.Maximum = 100;
-            this.tbGraviton1.Name = "tbGraviton1";
-            this.tbGraviton1.Size = new System.Drawing.Size(150, 45);
-            this.tbGraviton1.TabIndex = 7;
-            this.tbGraviton1.Tag = "";
-            this.tbGraviton1.Scroll += new System.EventHandler(this.tbGraviton_Scroll);
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(186, 355);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(67, 15);
-            this.label4.TabIndex = 12;
-            this.label4.Text = "Гравитон 2";
-            // 
-            // lblGraviton2
-            // 
-            this.lblGraviton2.AutoSize = true;
-            this.lblGraviton2.Location = new System.Drawing.Point(342, 388);
-            this.lblGraviton2.Name = "lblGraviton2";
-            this.lblGraviton2.Size = new System.Drawing.Size(13, 15);
-            this.lblGraviton2.TabIndex = 11;
-            this.lblGraviton2.Text = "0";
-            // 
-            // tbGraviton2
-            // 
-            this.tbGraviton2.AccessibleName = "";
-            this.tbGraviton2.LargeChange = 10;
-            this.tbGraviton2.Location = new System.Drawing.Point(186, 373);
-            this.tbGraviton2.Maximum = 100;
-            this.tbGraviton2.Name = "tbGraviton2";
-            this.tbGraviton2.Size = new System.Drawing.Size(150, 45);
-            this.tbGraviton2.TabIndex = 10;
-            this.tbGraviton2.Tag = "";
-            this.tbGraviton2.Scroll += new System.EventHandler(this.tbGraviton2_Scroll);
             // 
             // label5
             // 
@@ -289,7 +226,7 @@
             this.tbLife.Size = new System.Drawing.Size(150, 45);
             this.tbLife.TabIndex = 19;
             this.tbLife.Tag = "";
-            this.tbLife.Value = 50;
+            this.tbLife.Value = 80;
             this.tbLife.Scroll += new System.EventHandler(this.tbLife_Scroll);
             // 
             // lblPartCount
@@ -297,15 +234,71 @@
             this.lblPartCount.AutoSize = true;
             this.lblPartCount.Location = new System.Drawing.Point(558, 332);
             this.lblPartCount.Name = "lblPartCount";
-            this.lblPartCount.Size = new System.Drawing.Size(116, 15);
+            this.lblPartCount.Size = new System.Drawing.Size(125, 15);
             this.lblPartCount.TabIndex = 22;
-            this.lblPartCount.Text = "Количество частиц:";
+            this.lblPartCount.Text = "Количество частиц: 0";
+            // 
+            // rb100
+            // 
+            this.rb100.AutoSize = true;
+            this.rb100.Checked = true;
+            this.rb100.Location = new System.Drawing.Point(96, 353);
+            this.rb100.Name = "rb100";
+            this.rb100.Size = new System.Drawing.Size(43, 19);
+            this.rb100.TabIndex = 23;
+            this.rb100.TabStop = true;
+            this.rb100.Text = "100";
+            this.rb100.UseVisualStyleBackColor = true;
+            // 
+            // rb250
+            // 
+            this.rb250.AutoSize = true;
+            this.rb250.Location = new System.Drawing.Point(145, 353);
+            this.rb250.Name = "rb250";
+            this.rb250.Size = new System.Drawing.Size(43, 19);
+            this.rb250.TabIndex = 24;
+            this.rb250.Text = "250";
+            this.rb250.UseVisualStyleBackColor = true;
+            // 
+            // rb500
+            // 
+            this.rb500.AutoSize = true;
+            this.rb500.Location = new System.Drawing.Point(194, 353);
+            this.rb500.Name = "rb500";
+            this.rb500.Size = new System.Drawing.Size(43, 19);
+            this.rb500.TabIndex = 25;
+            this.rb500.Text = "500";
+            this.rb500.UseVisualStyleBackColor = true;
+            // 
+            // rb1000
+            // 
+            this.rb1000.AutoSize = true;
+            this.rb1000.Location = new System.Drawing.Point(243, 353);
+            this.rb1000.Name = "rb1000";
+            this.rb1000.Size = new System.Drawing.Size(49, 19);
+            this.rb1000.TabIndex = 26;
+            this.rb1000.Text = "1000";
+            this.rb1000.UseVisualStyleBackColor = true;
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(-1, 355);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(91, 15);
+            this.label3.TabIndex = 27;
+            this.label3.Text = "Объём кружка:";
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(745, 423);
+            this.ClientSize = new System.Drawing.Size(745, 381);
+            this.Controls.Add(this.label3);
+            this.Controls.Add(this.rb1000);
+            this.Controls.Add(this.rb500);
+            this.Controls.Add(this.rb250);
+            this.Controls.Add(this.rb100);
             this.Controls.Add(this.lblPartCount);
             this.Controls.Add(this.label7);
             this.Controls.Add(this.lblLife);
@@ -316,12 +309,6 @@
             this.Controls.Add(this.label5);
             this.Controls.Add(this.lblSpeed);
             this.Controls.Add(this.tbSpeed);
-            this.Controls.Add(this.label4);
-            this.Controls.Add(this.lblGraviton2);
-            this.Controls.Add(this.tbGraviton2);
-            this.Controls.Add(this.label3);
-            this.Controls.Add(this.lblGraviton1);
-            this.Controls.Add(this.tbGraviton1);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.lblSpreading);
             this.Controls.Add(this.tbSpreading);
@@ -335,8 +322,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.picDisplay)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.tbDirection)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.tbSpreading)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.tbGraviton1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.tbGraviton2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.tbSpeed)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.tbPartPerTick)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.tbLife)).EndInit();
@@ -355,12 +340,6 @@
         private Label label2;
         private Label lblSpreading;
         private TrackBar tbSpreading;
-        private Label label3;
-        private Label lblGraviton1;
-        private TrackBar tbGraviton1;
-        private Label label4;
-        private Label lblGraviton2;
-        private TrackBar tbGraviton2;
         private Label label5;
         private Label lblSpeed;
         private TrackBar tbSpeed;
@@ -371,5 +350,10 @@
         private Label lblLife;
         private TrackBar tbLife;
         private Label lblPartCount;
+        private RadioButton rb100;
+        private RadioButton rb250;
+        private RadioButton rb500;
+        private RadioButton rb1000;
+        private Label label3;
     }
 }
